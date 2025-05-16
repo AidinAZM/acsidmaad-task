@@ -3,11 +3,13 @@ import Header from "@/components/Header";
 import MovieCard from "@/components/MovieCard";
 import { Button } from "@/components/ui/button";
 
-async function getMovies({ genres, sortMethod }) {
+async function getMovies({ genres, sortMethod, searchQuery }) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&${
-      genres != "" ? `with_genres=${genres}` : ""
-    }&sort_by=${sortMethod}`,
+    `https://api.themoviedb.org/3/discover/movie?${
+      searchQuery != "" ? `query=${searchQuery}&` : ""
+    }include_adult=false&include_video=false&language=en-US&page=1&${
+      genres != "" ? `with_genres=${genres}&` : ""
+    }sort_by=${sortMethod}`,
     {
       method: "GET",
       headers: {
@@ -25,7 +27,9 @@ export default async function Home(query) {
   console.log("query :", query);
   let genres = query.searchParams.genre || "";
   let sortMethod = query.searchParams.sortMethod || "popularity.desc";
-  const movies = await getMovies({ genres, sortMethod });
+  let searchQuery = query.searchParams.q || "";
+  const movies = await getMovies({ genres, sortMethod, searchQuery });
+  console.log(movies);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 px-10">
       <Header />

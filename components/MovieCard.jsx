@@ -14,7 +14,7 @@ function MovieCard({
     <Card className="my-2 rounded-[8px] w-[100%] flex md:block bg-[#fcfcfa]">
       <CardHeader className="relative aspect-[2/1] md:aspect-[1/1.5] ">
         <Image
-          src={`https://media.themoviedb.org/t/p/original/${moviePosterPath}`}
+          src={`https://media.themoviedb.org/t/p/w500/${moviePosterPath}`}
           alt="test"
           fill={true}
           className="rounded-l-[8px] md:rounded-bl-none md:rounded-tr-[8px]"
