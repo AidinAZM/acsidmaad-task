@@ -2,14 +2,17 @@
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import CircularMovieScore from "./CircularMovieScore";
+import { useRouter } from "next/navigation";
 
 function MovieCard({
+  movieID,
   movieTitle,
   movieReleaseDate,
   moviePosterPath,
   movieOverview,
   movieVoteAvg,
 }) {
+  const router = useRouter();
   return (
     <Card className="my-2 rounded-[8px] w-[100%] flex md:block bg-[#fcfcfa]">
       <CardHeader className="relative aspect-[2/1] md:aspect-[1/1.5] ">
@@ -18,6 +21,7 @@ function MovieCard({
           alt={movieTitle}
           fill={true}
           className="rounded-l-[8px] md:rounded-bl-none md:rounded-tr-[8px]"
+          onClick={() => router.push(`/movies/${movieID}`)}
         />
         <CircularMovieScore percentage={Math.floor(movieVoteAvg * 10)} />
       </CardHeader>

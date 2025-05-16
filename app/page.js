@@ -23,17 +23,14 @@ async function getMovies({ genres, sortMethod }) {
 }
 
 export default async function Home(query) {
-  console.log("query :", query);
   let genres = query.searchParams.genre || "";
   let sortMethod = query.searchParams.sortMethod || "popularity.desc";
 
   const movies = await getMovies({ genres, sortMethod });
-  console.log(movies);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 px-10">
       <Header />
-      <div>Hello Acsidmaad!</div>
-
       {movies.results.length > 0 ? (
         <MovieList
           intialMovies={movies.results}

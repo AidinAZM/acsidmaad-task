@@ -98,19 +98,24 @@ function FilterMenu() {
 
   const params = new URLSearchParams(searchParams);
 
-  useEffect(() => {
-    if (selectedGenres.length === 0) {
-      return;
-    } else {
-      params.set("genre", selectedGenres.join(","));
-      router.push(`${pathname}?${params.toString()}`);
-    }
-  }, [selectedGenres]);
+  // useEffect(() => {
+  //   if (selectedGenres.length === 0) {
+  //     return;
+  //   } else {
+  //     params.set("genre", selectedGenres);
+  //     router.push(`${pathname}?${params.toString()}`);
+  //   }
+  // }, [selectedGenres]);
+
+  const handleFilter = (filterMethod) => {
+    setSelectedGenres([...selectedGenres, filterMethod]);
+
+    params.set("genre", selectedGenres);
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   return (
-    <Select
-      onValueChange={(value) => setSelectedGenres([...selectedGenres, value])}
-    >
+    <Select onValueChange={(value) => handleFilter(value)}>
       <SelectTrigger className="ml-2 filterSelect h-11">
         <SelectValue placeholder="Genres" />
       </SelectTrigger>

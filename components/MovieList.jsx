@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 
@@ -51,10 +50,11 @@ function MovieList({ intialMovies, genres, sortMethod }) {
     return () => observer.disconnect();
   }, []);
   return (
-    <div className="md:grid md:grid-cols-4 md:gap-4 lg:gap-5 lg:grid-cols-5 xl:gap-6 xl:grid-cols-6">
+    <div className="mt-4 md:grid md:grid-cols-4 md:gap-4 lg:gap-5 lg:grid-cols-5 xl:gap-6 xl:grid-cols-6">
       {movies.map((movie) => (
         <div key={movie.id}>
           <MovieCard
+            movieID={movie.id}
             movieTitle={movie.title}
             moviePosterPath={movie.poster_path}
             movieReleaseDate={movie.release_date}

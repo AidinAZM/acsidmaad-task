@@ -16,8 +16,9 @@ function CircularMovieScore({ percentage }) {
     pathColor = "red";
     trailColor = "#450a0a";
   }
+  //hidden md:block absolute bottom-[-19px] left-[10px]
   return (
-    <div className="hidden md:block absolute bottom-[-19px] left-[10px] box-border w-[38px] h-[38px] rounded-full bg-black">
+    <div className="box-border w-[50px] h-[50px] rounded-full bg-black">
       <CircularProgressbar
         value={percentage}
         text={`${percentage}%`}
