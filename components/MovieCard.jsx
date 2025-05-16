@@ -15,7 +15,7 @@ function MovieCard({
       <CardHeader className="relative aspect-[2/1] md:aspect-[1/1.5] ">
         <Image
           src={`https://media.themoviedb.org/t/p/w500/${moviePosterPath}`}
-          alt="test"
+          alt={movieTitle}
           fill={true}
           className="rounded-l-[8px] md:rounded-bl-none md:rounded-tr-[8px]"
         />
@@ -23,7 +23,7 @@ function MovieCard({
       </CardHeader>
       <CardContent className="p-[10px] py-[15px] md:h-[78px] md:p-3 md:mt-3">
         <div>
-          <h2 className="font-bold">{movieTitle}</h2>
+          <h2 className="font-bold line-clamp-1">{movieTitle}</h2>
           <span className="text-gray-500">{movieReleaseDate}</span>
         </div>
         <p className="text-sm mt-3 md:hidden overflow-hidden text-ellipsis line-clamp-2">
