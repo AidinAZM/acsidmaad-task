@@ -28,7 +28,7 @@ export default async function Home(query) {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 px-10">
       <Header />
-      {movies.results.length > 0 ? (
+      {movies.results?.length > 0 ? (
         <MovieList
           intialMovies={movies.results}
           genres={genres}
