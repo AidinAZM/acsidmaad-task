@@ -1,21 +1,18 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "./ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "./ui/command";
+import { Command, CommandInput } from "./ui/command";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Calculator } from "lucide-react";
+
 function Search() {
   const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  type MovieResult = {
+    id: number;
+    title: string;
+    poster_path: string | null;
+    // add other fields if needed
+  };
+  const [searchResults, setSearchResults] = useState<MovieResult[]>([]);
 
   const handleSearch = async (query) => {
     try {
@@ -52,7 +49,7 @@ function Search() {
         value={searchValue}
         className="rounded-md border"
         onChange={(event) => {
-          setSearchValue(event.target.value);
+          setSearchValue((event.target as HTMLInputElement).value);
         }}
       >
         <CommandInput

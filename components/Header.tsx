@@ -3,7 +3,6 @@ import FilterMenu from "./FilterMenu";
 import FilterChips from "./FilterChips";
 import SortMenu from "./SortMenu";
 import Search from "./Search";
-import { Button } from "./ui/button";
 import { ArrowDownUp, SlidersHorizontal } from "lucide-react";
 
 function Header() {

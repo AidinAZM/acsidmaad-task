@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 
 function FilterMenu() {
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const genres = [
     {
       id: 28,
@@ -102,7 +102,7 @@ function FilterMenu() {
     if (selectedGenres?.length === 0) {
       return;
     } else {
-      params.set("genre", selectedGenres);
+      params.set("genre", selectedGenres.join(","));
       router.push(`${pathname}?${params.toString()}`);
     }
   }, [selectedGenres]);
@@ -110,7 +110,7 @@ function FilterMenu() {
   useEffect(() => {
     if (searchParams.get("genre")) {
       console.log(searchParams.get("genre")?.split(","));
-      setSelectedGenres(searchParams.get("genre")?.split(","));
+      setSelectedGenres(searchParams.get("genre")?.split(",") || []);
     } else {
       setSelectedGenres([]);
     }
@@ -133,7 +133,7 @@ function FilterMenu() {
       <SelectContent>
         <SelectGroup>
           {genres.map((genre) => (
-            <SelectItem key={genre.id} value={genre.id}>
+            <SelectItem key={genre.id} value={genre.id.toString()}>
               {genre.name}
             </SelectItem>
           ))}

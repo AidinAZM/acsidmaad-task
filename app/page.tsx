@@ -1,8 +1,6 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import MovieCard from "@/components/MovieCard";
-import MovieList from "@/components/MovieList";
-import { Button } from "@/components/ui/button";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import MovieList from "../components/MovieList";
 
 async function getMovies({ genres, sortMethod }) {
   const res = await fetch(

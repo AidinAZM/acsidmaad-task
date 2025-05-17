@@ -14,7 +14,7 @@ function FilterChips() {
   );
 
   useEffect(() => {
-    setGenreFilters(searchParams.get("genre")?.split(","));
+    setGenreFilters(searchParams.get("genre")?.split(",") || []);
   }, [searchParams]);
 
   const genres = {

@@ -1,4 +1,4 @@
-import CircularMovieScore from "@/components/CircularMovieScore";
+import CircularMovieScore from "../../../components/CircularMovieScore";
 import Image from "next/image";
 
 async function MoviePage({ params }) {
@@ -46,7 +46,7 @@ async function MoviePage({ params }) {
   };
 
   return (
-    <div className="h-[100vh] bg-[#fffff0] lg:flex ">
+    <div className="h-[100vh] bg-black lg:flex ">
       <div className="flex items-center bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,1)),url('https://media.themoviedb.org/t/p/w500/qdKGpTHVaaKaFTnRynQDg4qHdEv.jpg')] bg-cover bg-center h-64 lg:bg-gradient-to-r lg:from-[#fffff0] lg:to-black lg:justify-center w-full lg:h-full relative lg:px-[30px] lg:py-[40px]">
         {/* <Image
           src={`https://media.themoviedb.org/t/p/w500${movie.backdrop_path}`}
@@ -59,7 +59,7 @@ async function MoviePage({ params }) {
           alt={movie.title}
           width={100}
           height={150}
-          className="hidden lg:block ml-10 rounded-md z-10 shadow-lg w-[50%] aspect-[2/3]"
+          className="hidden lg:block rounded-md z-10 shadow-lg w-[50%] aspect-[2/3]"
         />
       </div>
       <div className="relative bg-black text-white px-[50px] py-[40px]">
