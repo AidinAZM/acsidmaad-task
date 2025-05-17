@@ -17,7 +17,7 @@ function FilterChips() {
     setGenreFilters(searchParams.get("genre")?.split(",") || []);
   }, [searchParams]);
 
-  const genres = {
+  const genres: { [key: number]: string } = {
     28: "Action",
     12: "Adventure",
     16: "Animation",
@@ -39,8 +39,14 @@ function FilterChips() {
     37: "Western",
   };
 
-  const handleChipDelete = (genre) => {
-    const updatedFilters = genreFilters.filter((item) => item !== genre);
+  interface GenresMap {
+    [key: number]: string;
+  }
+
+  const handleChipDelete = (genre: string): void => {
+    const updatedFilters: string[] = genreFilters.filter(
+      (item) => item !== genre
+    );
     setGenreFilters(updatedFilters);
 
     if (updatedFilters.length == 0) {

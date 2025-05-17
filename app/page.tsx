@@ -1,8 +1,15 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import MovieList from "../components/MovieList";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import MovieList from "@/components/MovieList";
+import Image from "next/image";
 
-async function getMovies({ genres, sortMethod }) {
+async function getMovies({
+  genres,
+  sortMethod,
+}: {
+  genres: string;
+  sortMethod: string;
+}) {
   const res = await fetch(
     `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&${
       genres != "" ? `with_genres=${genres}&` : ""
@@ -11,7 +18,7 @@ async function getMovies({ genres, sortMethod }) {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${process.env.API_KEY}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMWEyZDY1ODlmODI3ZWFkMDQ4ZTVjZjEzY2U0ZGY4YyIsIm5iZiI6MTc0NzA2ODU3OC42MzMsInN1YiI6IjY4MjIyNmEyYjkwYzI3ZDA5NWFkOTU3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qXvR-KWxbkhGoshDpsiWp5-AGrMzgDZV_qp_eI3XyXE`,
       },
     }
   );
@@ -19,11 +26,35 @@ async function getMovies({ genres, sortMethod }) {
   return data;
 }
 
-export default async function Home(query) {
+interface HomeProps {
+  searchParams: {
+    genre?: string;
+    sortMethod?: string;
+    [key: string]: string | undefined;
+  };
+}
+
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string | null;
+  release_date: string;
+  [key: string]: any;
+}
+
+interface MoviesResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
+
+export default async function Home(query: HomeProps) {
   let genres = query.searchParams.genre || "";
   let sortMethod = query.searchParams.sortMethod || "popularity.desc";
 
-  const movies = await getMovies({ genres, sortMethod });
+  const movies: MoviesResponse = await getMovies({ genres, sortMethod });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 px-10">

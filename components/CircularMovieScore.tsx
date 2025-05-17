@@ -3,7 +3,17 @@
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-function CircularMovieScore({ percentage, position, size }) {
+interface CircularMovieScoreProps {
+  percentage: number;
+  position?: string;
+  size: number;
+}
+
+function CircularMovieScore({
+  percentage,
+  position,
+  size,
+}: CircularMovieScoreProps) {
   let pathColor = "#9ca3af";
   let trailColor = "#374151";
   if (percentage >= 70) {
@@ -22,7 +32,8 @@ function CircularMovieScore({ percentage, position, size }) {
         position == "absolute"
           ? "hidden md:block absolute bottom-[-19px] left-[10px]"
           : ""
-      } box-border w-[${size}px] h-[${size}px] rounded-full bg-black`}
+      } box-border rounded-full bg-black`}
+      style={{ width: `${size}px`, height: `${size}px` }}
     >
       <CircularProgressbar
         value={percentage}

@@ -3,6 +3,7 @@
 import { Command, CommandInput } from "./ui/command";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 function Search() {
   const [searchValue, setSearchValue] = useState("");
@@ -13,8 +14,8 @@ function Search() {
     // add other fields if needed
   };
   const [searchResults, setSearchResults] = useState<MovieResult[]>([]);
-
-  const handleSearch = async (query) => {
+  const router = useRouter();
+  const handleSearch = async (query: any) => {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
@@ -22,13 +23,13 @@ function Search() {
           method: "GET",
           headers: {
             accept: "application/json",
-            Authorization: `Bearer ${process.env.API_KEY}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMWEyZDY1ODlmODI3ZWFkMDQ4ZTVjZjEzY2U0ZGY4YyIsIm5iZiI6MTc0NzA2ODU3OC42MzMsInN1YiI6IjY4MjIyNmEyYjkwYzI3ZDA5NWFkOTU3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qXvR-KWxbkhGoshDpsiWp5-AGrMzgDZV_qp_eI3XyXE`,
           },
         }
       );
       const data = await res.json();
       setSearchResults(data.results);
-      console.log("search Results", data.results);
+      //   console.log("search Results", data.results);
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +66,7 @@ function Search() {
               <div
                 className="flex items-center my-2 cursor-pointer hover:bg-gray-100 p-2 rounded-md"
                 key={result.id}
-                onClick={() => console.log(result.id)}
+                onClick={() => router.push(`/movies/${result.id}`)}
               >
                 <Image
                   src={`https://media.themoviedb.org/t/p/w500/${result.poster_path}`}

@@ -2,9 +2,17 @@
 
 import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
+import Loading from "./Loading";
 
-function MovieList({ intialMovies, genres, sortMethod }) {
+interface MovieListProps {
+  intialMovies: any[]; // Replace 'any' with your movie type if available
+  genres: string;
+  sortMethod: string;
+}
+
+function MovieList({ intialMovies, genres, sortMethod }: MovieListProps) {
   const [movies, setMovies] = useState(intialMovies);
+  const [loading, setLoading] = useState(false);
   let page = 1;
 
   const loadMoreMovies = async () => {
@@ -18,12 +26,15 @@ function MovieList({ intialMovies, genres, sortMethod }) {
         method: "GET",
         headers: {
           accept: "application/json",
-          Authorization: `Bearer ${process.env.API_KEY}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMWEyZDY1ODlmODI3ZWFkMDQ4ZTVjZjEzY2U0ZGY4YyIsIm5iZiI6MTc0NzA2ODU3OC42MzMsInN1YiI6IjY4MjIyNmEyYjkwYzI3ZDA5NWFkOTU3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qXvR-KWxbkhGoshDpsiWp5-AGrMzgDZV_qp_eI3XyXE`,
         },
       }
     );
     const data = await res.json();
-    setMovies((prevMovies) => [...prevMovies, ...data.results]);
+    if (res.ok) {
+      setLoading(false);
+    }
+    setMovies((prevMovies: any) => [...prevMovies, ...data.results]);
     page = nextPage;
   };
 
@@ -36,6 +47,7 @@ function MovieList({ intialMovies, genres, sortMethod }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          setLoading(true);
           loadMoreMovies();
         }
       },
@@ -49,19 +61,22 @@ function MovieList({ intialMovies, genres, sortMethod }) {
     return () => observer.disconnect();
   }, []);
   return (
-    <div className="mt-4 md:grid md:grid-cols-4 md:gap-4 lg:gap-5 lg:grid-cols-5 xl:gap-6 xl:grid-cols-6">
-      {movies.map((movie) => (
-        <div key={movie.id}>
-          <MovieCard
-            movieID={movie.id}
-            movieTitle={movie.title}
-            moviePosterPath={movie.poster_path}
-            movieReleaseDate={movie.release_date}
-            movieOverview={movie.overview}
-            movieVoteAvg={movie.vote_average}
-          />
-        </div>
-      ))}
+    <div>
+      {loading && <Loading />}
+      <div className="mt-4 md:grid md:grid-cols-4 md:gap-4 lg:gap-5 lg:grid-cols-5 xl:gap-6 xl:grid-cols-6">
+        {movies.map((movie: any) => (
+          <div key={movie.id}>
+            <MovieCard
+              movieID={movie.id}
+              movieTitle={movie.title}
+              moviePosterPath={movie.poster_path}
+              movieReleaseDate={movie.release_date}
+              movieOverview={movie.overview}
+              movieVoteAvg={movie.vote_average}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
