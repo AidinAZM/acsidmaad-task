@@ -20,14 +20,23 @@ function MovieCard({
           src={`https://media.themoviedb.org/t/p/w500/${moviePosterPath}`}
           alt={movieTitle}
           fill={true}
-          className="rounded-l-[8px] md:rounded-bl-none md:rounded-tr-[8px]"
+          className="rounded-l-[8px] md:rounded-bl-none md:rounded-tr-[8px] cursor-pointer"
           onClick={() => router.push(`/movies/${movieID}`)}
         />
-        <CircularMovieScore percentage={Math.floor(movieVoteAvg * 10)} />
+        <CircularMovieScore
+          percentage={Math.floor(movieVoteAvg * 10)}
+          size={"38"}
+          position={"absolute"}
+        />
       </CardHeader>
       <CardContent className="p-[10px] py-[15px] md:h-[78px] md:p-3 md:mt-3">
         <div>
-          <h2 className="font-bold line-clamp-1">{movieTitle}</h2>
+          <h2
+            className="font-bold line-clamp-1 cursor-pointer"
+            onClick={() => router.push(`/movies/${movieID}`)}
+          >
+            {movieTitle}
+          </h2>
           <span className="text-gray-500">{movieReleaseDate}</span>
         </div>
         <p className="text-sm mt-3 md:hidden overflow-hidden text-ellipsis line-clamp-2">

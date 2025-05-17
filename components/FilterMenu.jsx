@@ -98,24 +98,35 @@ function FilterMenu() {
 
   const params = new URLSearchParams(searchParams);
 
-  // useEffect(() => {
-  //   if (selectedGenres.length === 0) {
-  //     return;
-  //   } else {
-  //     params.set("genre", selectedGenres);
-  //     router.push(`${pathname}?${params.toString()}`);
-  //   }
-  // }, [selectedGenres]);
+  useEffect(() => {
+    if (selectedGenres?.length === 0) {
+      return;
+    } else {
+      params.set("genre", selectedGenres);
+      router.push(`${pathname}?${params.toString()}`);
+    }
+  }, [selectedGenres]);
 
-  const handleFilter = (filterMethod) => {
-    setSelectedGenres([...selectedGenres, filterMethod]);
+  useEffect(() => {
+    if (searchParams.get("genre")) {
+      console.log(searchParams.get("genre")?.split(","));
+      setSelectedGenres(searchParams.get("genre")?.split(","));
+    } else {
+      setSelectedGenres([]);
+    }
+  }, [searchParams]);
 
-    params.set("genre", selectedGenres);
-    router.push(`${pathname}?${params.toString()}`);
-  };
+  // const handleFilter = (filterMethod) => {
+  //   setSelectedGenres([...selectedGenres, filterMethod]);
+
+  //   params.set("genre", selectedGenres);
+  //   router.push(`${pathname}?${params.toString()}`);
+  // };
 
   return (
-    <Select onValueChange={(value) => handleFilter(value)}>
+    <Select
+      onValueChange={(value) => setSelectedGenres([...selectedGenres, value])}
+    >
       <SelectTrigger className="ml-2 filterSelect h-11">
         <SelectValue placeholder="Genres" />
       </SelectTrigger>

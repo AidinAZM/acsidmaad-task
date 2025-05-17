@@ -16,6 +16,19 @@ async function MoviePage({ params }) {
   );
   const movie = await res.json();
 
+  const creditsRes = await fetch(
+    `https://api.themoviedb.org/3/movie/${params.id}/credits?language=en-US`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMWEyZDY1ODlmODI3ZWFkMDQ4ZTVjZjEzY2U0ZGY4YyIsIm5iZiI6MTc0NzA2ODU3OC42MzMsInN1YiI6IjY4MjIyNmEyYjkwYzI3ZDA5NWFkOTU3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qXvR-KWxbkhGoshDpsiWp5-AGrMzgDZV_qp_eI3XyXE",
+      },
+    }
+  );
+  const credits = await creditsRes.json();
+
   const calculateRuntime = (runtime) => {
     let total = runtime;
     let h = 0;
@@ -33,23 +46,23 @@ async function MoviePage({ params }) {
   };
 
   return (
-    <div className="my-auto h-[100vh] bg-[#fffff0] md:flex ">
-      <div className="flex items-center bg-gradient-to-r from-[#fffff0] to-black md:justify-center w-full md:h-full relative md:px-[30px] md:py-[40px]">
-        <Image
+    <div className="h-[100vh] bg-[#fffff0] lg:flex ">
+      <div className="flex items-center bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,1)),url('https://media.themoviedb.org/t/p/w500/qdKGpTHVaaKaFTnRynQDg4qHdEv.jpg')] bg-cover bg-center h-64 lg:bg-gradient-to-r lg:from-[#fffff0] lg:to-black lg:justify-center w-full lg:h-full relative lg:px-[30px] lg:py-[40px]">
+        {/* <Image
           src={`https://media.themoviedb.org/t/p/w500${movie.backdrop_path}`}
           alt={movie.title}
           fill
-          className="aspect-[9/4] md:hidden"
-        />
+          className="aspect-[9/4] opacity-50  lg:hidden"
+        /> */}
         <Image
           src={`https://media.themoviedb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
           width={100}
           height={150}
-          className=" ml-10 rounded-md z-10 shadow-lg border md:w-[50%] aspect-[2/3]"
+          className="hidden lg:block ml-10 rounded-md z-10 shadow-lg w-[50%] aspect-[2/3]"
         />
       </div>
-      <div className="relative md:bg-black text-white md:px-[30px] md:py-[40px]">
+      <div className="relative bg-black text-white px-[50px] py-[40px]">
         {/* <Image
           src={`https://media.themoviedb.org/t/p/w500${movie.backdrop_path}`}
           alt={movie.title}
@@ -64,9 +77,13 @@ async function MoviePage({ params }) {
         </div>
         <div className="flex justify-center items-center font-bold py-2 text-lg relative">
           <span className="mr-2">User Score</span>
-          <CircularMovieScore percentage={movie.vote_average * 10} />
+          <CircularMovieScore
+            percentage={Math.floor(movie.vote_average * 10)}
+            size={"50"}
+            position={"block"}
+          />
         </div>
-        <div className="bg-black md:bg-transparent text-white py-3 mt-2">
+        <div className="bg-black lg:bg-transparent text-white py-3 mt-2">
           <div className="flex justify-center items-center p-1">
             <div className="p-1 border rounded-sm text-gray-400 mr-4">PG</div>
             <div>{`${movie.release_date.split("-")[2]}/${
@@ -89,6 +106,14 @@ async function MoviePage({ params }) {
           <p className="italic opacity-70">{movie.tagline}</p>
           <h2 className="font-bold my-2">Overview</h2>
           <p>{movie.overview}</p>
+          <div className="py-6 grid grid-cols-2  overflow-clip">
+            {credits.crew.slice(0, 4)?.map((crew) => (
+              <div key={crew.id} className="p-4 ">
+                <p className="font-bold">{crew.name}</p>
+                <p className="font-normal text-sm">{crew.job}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
